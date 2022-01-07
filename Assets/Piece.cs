@@ -21,11 +21,13 @@ public class Piece : MonoBehaviour
                 {
                     gameObject.transform.localScale *= 2f;
                     PieceManager._instance.GetMove(gameObject, gameObject.name);
+                    StartCoroutine(DelayForScaleUp());
                 }
                 if (!GameManager._instance.turn && gameObject.CompareTag("Black"))
                 {
                     gameObject.transform.localScale *= 2f;
                     PieceManager._instance.GetMove(gameObject, gameObject.name);
+                    StartCoroutine(DelayForScaleUp());
                 }
             }
 
@@ -35,11 +37,13 @@ public class Piece : MonoBehaviour
                 {
                     gameObject.transform.localScale *= 2f;
                     PieceManager._instance.GetMove(gameObject, gameObject.name);
+                    StartCoroutine(DelayForScaleUp());
                 }
                 if (!GameManager._instance.turn && gameObject.CompareTag("Black")&& gameObject.name == "BKing(Clone)")
                 {
                     gameObject.transform.localScale *= 2f;
                     PieceManager._instance.GetMove(gameObject, gameObject.name);
+                    StartCoroutine(DelayForScaleUp());
                 }
 
             }
@@ -48,10 +52,11 @@ public class Piece : MonoBehaviour
         {
             gameObject.transform.localScale *= 2f;
             PieceManager._instance.GetMove(gameObject, gameObject.name);
+            StartCoroutine(DelayForScaleUp());
         }
 
     }
-    private void OnMouseUp()
+   /* private void OnMouseUp()
     {
         if (!PieceManager._instance.freePlay)
         {
@@ -73,10 +78,13 @@ public class Piece : MonoBehaviour
 
 
         }
-        else if (PieceManager._instance.check)
+       
+           else if (!PieceManager._instance.freePlay)
         {
-            if (!PieceManager._instance.freePlay)
+            if (PieceManager._instance.check)
             {
+
+           
 
                 if (GameManager._instance.turn && gameObject.CompareTag("White") && gameObject.name == "WKing(Clone)" )
                 {
@@ -88,15 +96,20 @@ public class Piece : MonoBehaviour
                 }
             }
         }
+       
 
         else
         {
             gameObject.transform.localScale /= 2f;
         }
 
+    }*/
+
+    public IEnumerator DelayForScaleUp()
+    {
+        yield return new WaitForSeconds(0.1f);
+        gameObject.transform.localScale /= 2f;
     }
-
-
 
     public void DoneFirstMove()
     {

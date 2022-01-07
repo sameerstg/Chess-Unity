@@ -8,7 +8,7 @@ public class PieceManager : MonoBehaviour
 
      public static PieceManager _instance;
     public bool freePlay;
-
+ 
     //      Piece Prefab List
     public List<GameObject> whitePiecesList;
      public List<GameObject> blackPiecesList;
@@ -1199,6 +1199,7 @@ public class PieceManager : MonoBehaviour
                 }
             }
         }
+        
         Deselect();
     }
     void Generating()
@@ -1350,6 +1351,7 @@ public class PieceManager : MonoBehaviour
     }
     public void Check()
     {
+        //////////////////////////////////////////          White King Check Check
         for (int i = 0; i < 8; i++)
         {
             for (int j = 0; j < 8; j++)
@@ -1361,140 +1363,714 @@ public class PieceManager : MonoBehaviour
 
                 if (pCellColumns[i].pcellRows[j].name == "WKing(Clone)")
                 {
-                    if (turn)
+
+
+                    //      Right Bottom
+                    var x_x3 = i;
+                    var y_y3 = j;
+                    for (int aa3 = 0; aa3 < 8; aa3++)
                     {
-                        //      Upward Check
-                        var y = i;
-                        for (int k = 0; k < 8; k++)
+                        if (x_x3 > 7 || x_x3 < 0 || y_y3 > 7 || y_y3 < 0)
                         {
-                            y -= 1;
-                            if (pCellColumns[y].pcellRows[j] != null)
+                            break;
+                        }
+                        x_x3 += 1;
+                        y_y3 += 1;
+
+                        if (x_x3 > 7 || x_x3 < 0 || y_y3 > 7 || y_y3 < 0)
+                        {
+                            break;
+                        }
+
+
+                        if (pCellColumns[x_x3].pcellRows[y_y3] == null)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            if (pCellColumns[x_x3].pcellRows[y_y3].CompareTag("White"))
                             {
-                                if (pCellColumns[y].pcellRows[j].tag == "Black")
-                                {
-                                    print(pCellColumns[y].pcellRows[j].name + " is in front");
-
-                                    if (pCellColumns[y].pcellRows[j].name == "BRook(Clone)" || pCellColumns[y].pcellRows[j].name == "BQueen(Clone)")
-                                    {
-                                        check = true;
-                                        print("check");
-
-                                    }
-                                }
                                 break;
-
                             }
-                            else if (pCellColumns[y].pcellRows[j] == null)
+                            else if (pCellColumns[x_x3].pcellRows[y_y3].name == "BQueen(Clone)" || pCellColumns[x_x3].pcellRows[y_y3].name == "BBishop(Clone)")
                             {
-                                continue;
+                                check = true;
+                                Background._instance.CheckColor();
+                                return;
                             }
-
-
-
+                            else
+                            {
+                                check = false;
+                                Background._instance.CheckColor();
+                                break;
+                            }
 
                         }
-                        //      Downward Check
-                        var y1 = i;
-                        for (int l = 0; l < 8; l++)
-                        {
-                            y1 += 1;
-                            if (y1 > 7)
-                            {
-                                break;
-                            }
-                            if (pCellColumns[y1].pcellRows[j] == null)
-                            {
-                                continue;
-                            }
-
-                            if (pCellColumns[y1].pcellRows[j] != null)
-                            {
-                                if (pCellColumns[y1].pcellRows[j].tag == "Black")
-                                {
-                                    print(pCellColumns[y1].pcellRows[j].name + " is in down");
-
-                                    if (pCellColumns[y1].pcellRows[j].name == "BRook(Clone)" || pCellColumns[y1].pcellRows[j].name == "BQueen(Clone)")
-                                    {
-                                        check = true;
-                                        print("check");
-
-                                    }
-                                }
-                                break;
-
-                            }
-                        }
-                        //      Left Check
-                        var y2 = j;
-                        for (int m = 0; m < 8; m++)
-                        {
-                            y2 -= 1;
-                            if (y2 < 0)
-                            {
-                                break;
-                            }
-                            if (pCellColumns[i].pcellRows[y2] == null)
-                            {
-                                continue;
-                            }
-
-                            if (pCellColumns[i].pcellRows[y2] != null)
-                            {
-                                if (pCellColumns[i].pcellRows[y2].tag == "Black")
-                                {
-                                    print(pCellColumns[i].pcellRows[y2].name + " is in left");
-
-                                    if (pCellColumns[i].pcellRows[y2].name == "BRook(Clone)" || pCellColumns[i].pcellRows[y2].name == "BQueen(Clone)")
-                                    {
-                                        check = true;
-                                        print("check");
-
-                                    }
-                                }
-                                break;
-
-                            }
-                        }
-                        //      Right Check
-                        var y3 = j;
-                        for (int n = 0; n < 8; n++)
-                        {
-                            y3 += 1;
-                            if (y3 > 7)
-                            {
-                                break;
-                            }
-                            if (pCellColumns[i].pcellRows[y3] == null)
-                            {
-                                continue;
-                            }
-
-                            if (pCellColumns[i].pcellRows[y3] != null)
-                            {
-                                if (pCellColumns[i].pcellRows[y3].tag == "Black")
-                                {
-                                    print(pCellColumns[i].pcellRows[y3].name + " is in right");
-
-                                    if (pCellColumns[i].pcellRows[y3].name == "BRook(Clone)" || pCellColumns[i].pcellRows[y3].name == "BQueen(Clone)")
-                                    {
-                                        check = true;
-                                        print("check");
-
-                                    }
-                                }
-                                break;
-
-                            }
-                        }
+                        check = false;
+                        Background._instance.CheckColor();
                     }
-                    if (turn)
+                    //      Left Bottom
+                    var x_x4 = i;
+                    var y_y4 = j;
+                    for (int aa4 = 0; aa4 < 8; aa4++)
                     {
+                        if (x_x4 > 7 || x_x4 < 0 || y_y4 > 7 || y_y4 < 0)
+                        {
+                            break;
+                        }
+                        x_x4 += 1;
+                        y_y4 -= 1;
 
+                        if (x_x4 > 7 || x_x4 < 0 || y_y4 > 7 || y_y4 < 0)
+                        {
+                            break;
+                        }
+
+
+                        if (pCellColumns[x_x4].pcellRows[y_y4] == null)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            if (pCellColumns[x_x4].pcellRows[y_y4].CompareTag("White"))
+                            {
+                                break;
+                            }
+                            else if (pCellColumns[x_x4].pcellRows[y_y4].name == "BQueen(Clone)" || pCellColumns[x_x4].pcellRows[y_y4].name == "BBishop(Clone)")
+                            {
+                                check = true;
+                                Background._instance.CheckColor();
+                                return;
+                            }
+                            else
+                            {
+                                check = false;
+                                Background._instance.CheckColor();
+                                break;
+                            }
+
+                        }
+                        check = false;
+                        Background._instance.CheckColor();
+                    }
+
+                    //      Right Above
+                    var x_x1 = i;
+                    var y_y1 = j;
+                    for (int aa1 = 0; aa1 < 8; aa1++)
+                    {
+                        if (x_x1 > 7 || x_x1 < 0 || y_y1 > 7 || y_y1 < 0)
+                        {
+                            break;
+                        }
+                        x_x1 -= 1;
+                        y_y1 += 1;
+
+                        if (x_x1 > 7 || x_x1 < 0 || y_y1 > 7 || y_y1 < 0)
+                        {
+                            break;
+                        }
+                        if (pCellColumns[x_x1].pcellRows[y_y1] == null)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            if (pCellColumns[x_x1].pcellRows[y_y1].CompareTag("White"))
+                            {
+                                break;
+                            }
+                            else if (pCellColumns[x_x1].pcellRows[y_y1].name == "BQueen(Clone)" || pCellColumns[x_x1].pcellRows[y_y1].name == "BBishop(Clone)")
+                            {
+                                check = true;
+                                Background._instance.CheckColor();
+                                return;
+                            }
+                            else
+                            {
+                                check = false;
+
+                            }
+                        }
+                        check = false;
+                        Background._instance.CheckColor();
+                    }
+                    //      Left Above
+                    var x_x2 = i;
+                    var y_y2 = j;
+                    for (int aa2 = 0; aa2 < 8; aa2++)
+                    {
+                        if (x_x2 > 7 || x_x2 < 0 || y_y2 > 7 || y_y2 < 0)
+                        {
+                            break;
+                        }
+                        x_x2 -= 1;
+                        y_y2 -= 1;
+
+                        if (x_x2 > 7 || x_x2 < 0 || y_y2 > 7 || y_y2 < 0)
+                        {
+                            break;
+                        }
+                        if (pCellColumns[x_x2].pcellRows[y_y2] == null)
+                        {
+                            continue;
+                        }
+
+                        else
+                        {
+
+                            if (pCellColumns[x_x2].pcellRows[y_y2].CompareTag("White"))
+                            {
+                                break;
+                            }
+                            else if (pCellColumns[x_x2].pcellRows[y_y2].name == "BQueen(Clone)" || pCellColumns[x_x2].pcellRows[y_y2].name == "BBishop(Clone)")
+                            {
+
+
+
+                                check = true;
+                                Background._instance.CheckColor();
+                                return;
+                            }
+                            else
+                            {
+                                check = false;
+                                Background._instance.CheckColor();
+                                break;
+                            }
+                        }
+                        check = false;
+                        Background._instance.CheckColor();
+
+                    }
+
+
+                    //      Upward Check
+                    var y2y = i;
+                    for (int k2k = 0; k2k < 8; k2k++)
+                    {
+                        y2y -= 1;
+                        if (pCellColumns[y2y].pcellRows[j] != null)
+                        {
+                            if (pCellColumns[y2y].pcellRows[j].tag == "Black")
+                            {
+
+                                if (pCellColumns[y2y].pcellRows[j].name == "BRook(Clone)" || pCellColumns[y2y].pcellRows[j].name == "BQueen(Clone)")
+                                {
+                                    check = true;
+                                    Background._instance.CheckColor();
+                                    return;
+
+                                }
+                                else
+                                {
+                                    check = false;
+                                }
+                            }
+                            break;
+
+                        }
+                        else if (pCellColumns[y2y].pcellRows[j] == null)
+                        {
+                            continue;
+                        }
+                        check = false;
+                        Background._instance.CheckColor();
+
+
+
+                    }
+                    //      Downward Check
+                    var y1 = i;
+                    for (int l2l = 0; l2l < 8; l2l++)
+                    {
+                        y1 += 1;
+                        if (y1 > 7)
+                        {
+                            break;
+                        }
+                        if (pCellColumns[y1].pcellRows[j] == null)
+                        {
+                            continue;
+                        }
+
+                        if (pCellColumns[y1].pcellRows[j] != null)
+                        {
+                            if (pCellColumns[y1].pcellRows[j].tag == "Black")
+                            {
+
+                                if (pCellColumns[y1].pcellRows[j].name == "BRook(Clone)" || pCellColumns[y1].pcellRows[j].name == "BQueen(Clone)")
+                                {
+                                    check = true;
+                                    Background._instance.CheckColor();
+                                    return;
+
+                                }
+                                else
+                                {
+                                    check = false;
+                                }
+                            }
+                            break;
+
+                        }
+                        check = false;
+                        Background._instance.CheckColor();
+                    }
+                    //      Left Check
+                    var y2 = j;
+                    for (int m = 0; m < 8; m++)
+                    {
+                        y2 -= 1;
+                        if (y2 < 0)
+                        {
+                            break;
+                        }
+                        if (pCellColumns[i].pcellRows[y2] == null)
+                        {
+                            continue;
+                        }
+
+                        if (pCellColumns[i].pcellRows[y2] != null)
+                        {
+                            if (pCellColumns[i].pcellRows[y2].tag == "Black")
+                            {
+
+                                if (pCellColumns[i].pcellRows[y2].name == "BRook(Clone)" || pCellColumns[i].pcellRows[y2].name == "BQueen(Clone)")
+                                {
+                                    check = true;
+                                    Background._instance.CheckColor();
+                                    return;
+
+                                }
+                                else
+                                {
+                                    check = false;
+                                }
+                            }
+                            break;
+
+                        }
+                        check = false;
+                        Background._instance.CheckColor();
+                    }
+                    //      Right Check
+                    var y3 = j;
+                    for (int n = 0; n < 8; n++)
+                    {
+                        y3 += 1;
+                        if (y3 > 7)
+                        {
+                            break;
+                        }
+                        if (pCellColumns[i].pcellRows[y3] == null)
+                        {
+                            continue;
+                        }
+
+                        if (pCellColumns[i].pcellRows[y3] != null)
+                        {
+                            if (pCellColumns[i].pcellRows[y3].tag == "Black")
+                            {
+
+                                if (pCellColumns[i].pcellRows[y3].name == "BRook(Clone)" || pCellColumns[i].pcellRows[y3].name == "BQueen(Clone)")
+                                {
+                                    check = true;
+                                    Background._instance.CheckColor();
+                                    return;
+
+                                }
+
+                            }
+
+
+                        }
+                        check = false;
+                        Background._instance.CheckColor();
+                    }
+                    //////////////////////////////////////////          Black King Check Check
+                    for (int zz = 0; zz < 8; zz++)
+                    {
+                        for (int jj = 0; jj < 8; jj++)
+                        {
+                            if (pCellColumns[zz].pcellRows[jj] == null)
+                            {
+                                continue;
+                            }
+
+                            else if (pCellColumns[zz].pcellRows[jj].name == "BKing(Clone)")
+                            {
+
+                                //      Right Bottom
+                                var xx3 = zz;
+                                var yy3 = jj;
+                                for (int aa3 = 0; aa3 < 8; aa3++)
+                                {
+                                    if (xx3 > 7 || xx3 < 0 || yy3 > 7 || yy3 < 0)
+                                    {
+                                        break;
+                                    }
+                                    xx3 += 1;
+                                    yy3 += 1;
+
+                                    if (xx3 > 7 || xx3 < 0 || yy3 > 7 || yy3 < 0)
+                                    {
+                                        break;
+                                    }
+
+
+                                    if (pCellColumns[xx3].pcellRows[yy3] == null)
+                                    {
+                                        continue;
+                                    }
+                                    else
+                                    {
+                                        if (pCellColumns[xx3].pcellRows[yy3].CompareTag("Black"))
+                                        {
+                                            break;
+                                        }
+                                        else if (pCellColumns[xx3].pcellRows[yy3].name == "WQueen (Clone)" || pCellColumns[xx3].pcellRows[yy3].name == "WBishop (Clone)")
+                                        {
+                                            check = true;
+                                            Background._instance.CheckColor();
+                                            return;
+                                        }
+                                        else
+                                        {
+                                            check = false;
+                                            Background._instance.CheckColor();
+                                            break;
+                                        }
+
+                                    }
+                                    check = false;
+                                    Background._instance.CheckColor();
+                                }
+                                //      Left Bottom
+                                var xx4 = zz;
+                                var yy4 = jj;
+                                for (int aa4 = 0; aa4 < 8; aa4++)
+                                {
+                                    if (xx4 > 7 || xx4 < 0 || yy4 > 7 || yy4 < 0)
+                                    {
+                                        break;
+                                    }
+                                    xx4 += 1;
+                                    yy4 -= 1;
+
+                                    if (xx4 > 7 || xx4 < 0 || yy4 > 7 || yy4 < 0)
+                                    {
+                                        break;
+                                    }
+
+
+                                    if (pCellColumns[xx4].pcellRows[yy4] == null)
+                                    {
+                                        continue;
+                                    }
+                                    else
+                                    {
+                                        if (pCellColumns[xx4].pcellRows[yy4].CompareTag("Black"))
+                                        {
+                                            break;
+                                        }
+                                        else if (pCellColumns[xx4].pcellRows[yy4].name == "WQueen (Clone)" || pCellColumns[xx4].pcellRows[yy4].name == "WBishop (Clone)")
+                                        {
+                                            check = true;
+                                            Background._instance.CheckColor();
+                                            return;
+                                        }
+                                        else
+                                        {
+                                            check = false;
+                                            Background._instance.CheckColor();
+                                            break;
+                                        }
+
+                                    }
+                                    check = false;
+                                    Background._instance.CheckColor();
+                                }
+                                //      Right Above
+                                var xx1 = zz;
+                                var yy1 = jj;
+                                for (int aa1 = 0; aa1 < 8; aa1++)
+                                {
+                                    if (xx1 > 7 || xx1 < 0 || yy1 > 7 || yy1 < 0)
+                                    {
+                                        break;
+                                    }
+                                    xx1 -= 1;
+                                    yy1 += 1;
+
+                                    if (xx1 > 7 || xx1 < 0 || yy1 > 7 || yy1 < 0)
+                                    {
+                                        break;
+                                    }
+                                    if (pCellColumns[xx1].pcellRows[yy1] == null)
+                                    {
+                                        continue;
+                                    }
+                                    else
+                                    {
+                                        if (pCellColumns[xx1].pcellRows[yy1].CompareTag("Black"))
+                                        {
+                                            break;
+                                        }
+                                        else if (pCellColumns[xx1].pcellRows[yy1].name == "WQueen (Clone)" || pCellColumns[xx1].pcellRows[yy1].name == "WBishop (Clone)")
+                                        {
+                                            check = true;
+                                            Background._instance.CheckColor();
+                                            return;
+                                        }
+                                        else
+                                        {
+                                            check = false;
+
+                                        }
+                                    }
+                                    check = false;
+                                    Background._instance.CheckColor();
+                                }
+                                //      Left Above
+                                var xx2 = zz;
+                                var yy2 = jj;
+                                for (int aa2 = 0; aa2 < 8; aa2++)
+                                {
+                                    if (xx2 > 7 || xx2 < 0 || yy2 > 7 || yy2 < 0)
+                                    {
+                                        break;
+                                    }
+                                    xx2 -= 1;
+                                    yy2 -= 1;
+
+                                    if (xx2 > 7 || xx2 < 0 || yy2 > 7 || yy2 < 0)
+                                    {
+                                        break;
+                                    }
+                                    if (pCellColumns[xx2].pcellRows[yy2] == null)
+                                    {
+                                        continue;
+                                    }
+
+                                    else
+                                    {
+
+                                        if (pCellColumns[xx2].pcellRows[yy2].CompareTag("Black"))
+                                        {
+                                            break;
+                                        }
+                                        else if (pCellColumns[xx2].pcellRows[yy2].name == "WQueen (Clone)" || pCellColumns[xx2].pcellRows[yy2].name == "WBishop (Clone)")
+                                        {
+
+
+
+                                            check = true;
+                                            Background._instance.CheckColor();
+                                            return;
+                                        }
+                                        else
+                                        {
+                                            check = false;
+                                            Background._instance.CheckColor();
+                                            break;
+                                        }
+                                    }
+                                    check = false;
+                                    Background._instance.CheckColor();
+
+                                }
+                                //      Left Check
+                                var oo = jj;
+                                for (int m = 0; m < 8; m++)
+                                {
+
+                                    oo -= 1;
+                                    if (oo < 0)
+                                    {
+                                        break;
+                                    }
+                                    if (pCellColumns[zz].pcellRows[oo] == null)
+                                    {
+                                        continue;
+                                    }
+
+                                    if (pCellColumns[zz].pcellRows[oo] != null)
+                                    {
+                                        if (pCellColumns[zz].pcellRows[oo].tag == "White")
+                                        {
+
+                                            if (pCellColumns[zz].pcellRows[oo].name == "WRook (Clone)" || pCellColumns[zz].pcellRows[oo].name == "WQueen (Clone)")
+                                            {
+                                                check = true;
+                                                Background._instance.CheckColor();
+                                                return;
+
+                                            }
+                                            else
+                                            {
+                                                check = false;
+                                                Background._instance.CheckColor();
+                                                break;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            check = false;
+                                            Background._instance.CheckColor();
+                                            break;
+                                        }
+
+                                    }
+                                    
+                                }
+                                //      right Check
+                                var oo1 = jj;
+                                for (int m1 = 0; m1 < 8; m1++)
+                                {
+
+                                    oo1 += 1;
+                                    if (oo1 > 7)
+                                    {
+                                        break;
+                                    }
+                                    if (pCellColumns[zz].pcellRows[oo1] == null)
+                                    {
+                                        continue;
+                                    }
+
+                                    if (pCellColumns[zz].pcellRows[oo1] != null)
+                                    {
+                                        if (pCellColumns[zz].pcellRows[oo1].tag == "White")
+                                        {
+
+                                            if (pCellColumns[zz].pcellRows[oo1].name == "WRook (Clone)" || pCellColumns[zz].pcellRows[oo1].name == "WQueen (Clone)")
+                                            {
+                                                check = true;
+                                                Background._instance.CheckColor();
+                                                return;
+
+                                            }
+                                            else
+                                            {
+                                                check = false;
+                                                Background._instance.CheckColor();
+                                                break;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            check = false;
+                                            Background._instance.CheckColor();
+                                            break;
+                                        }
+
+                                    }
+
+                                }
+                                //      Up Check
+                                var oo2 = zz;
+                                for (int m2 = 0; m2 < 8; m2++)
+                                {
+
+                                    oo2 -= 1;
+                                    if (oo2 < 0)
+                                    {
+                                        break;
+                                    }
+                                    if (pCellColumns[oo2].pcellRows[jj] == null)
+                                    {
+                                        continue;
+                                    }
+
+                                    if (pCellColumns[oo2].pcellRows[jj] != null)
+                                    {
+                                        if (pCellColumns[oo2].pcellRows[jj].tag == "White")
+                                        {
+
+                                            if (pCellColumns[oo2].pcellRows[jj].name == "WRook (Clone)" || pCellColumns[oo2].pcellRows[jj].name == "WQueen (Clone)")
+                                            {
+                                                check = true;
+                                                Background._instance.CheckColor();
+                                                return;
+
+                                            }
+                                            else
+                                            {
+                                                check = false;
+                                                Background._instance.CheckColor();
+                                                break;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            check = false;
+                                            Background._instance.CheckColor();
+                                            break;
+                                        }
+
+                                    }
+
+                                }
+                                //      down Check
+                                var oo3 = zz;
+                                for (int m2 = 0; m2 < 8; m2++)
+                                {
+
+                                    oo3 += 1;
+                                    if (oo3 > 7)
+                                    {
+                                        break;
+                                    }
+                                    if (pCellColumns[oo3].pcellRows[jj] == null)
+                                    {
+                                        continue;
+                                    }
+
+                                    if (pCellColumns[oo3].pcellRows[jj] != null)
+                                    {
+                                        if (pCellColumns[oo3].pcellRows[jj].tag == "White")
+                                        {
+
+                                            if (pCellColumns[oo3].pcellRows[jj].name == "WRook (Clone)" || pCellColumns[oo3].pcellRows[jj].name == "WQueen (Clone)")
+                                            {
+                                                check = true;
+                                                Background._instance.CheckColor();
+                                                return;
+
+                                            }
+                                            else
+                                            {
+                                                check = false;
+                                                Background._instance.CheckColor();
+                                                break;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            check = false;
+                                            Background._instance.CheckColor();
+                                            break;
+                                        }
+
+                                    }
+
+                                }
+
+
+
+
+                            }
+                        }
                     }
                 }
             }
         }
+        Background._instance.CheckColor();
     }
+
     void GenerateDot(int x,int y)
     {
         if (x>-1&&x<8&&y>-1&&y<8)
@@ -1518,10 +2094,10 @@ public class PieceManager : MonoBehaviour
                 dCellColumns[x].dcellRows[y] = newDot.gameObject;
 
 
-            }
+            }}
         }
     }
-}
+
 
 
 [System.Serializable]
@@ -1536,4 +2112,3 @@ public class DCell
 }
 
 
- 
