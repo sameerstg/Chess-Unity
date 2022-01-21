@@ -142,13 +142,26 @@ public class PieceManager : MonoBehaviour
 
                 if (pCellColumns[i].pcellRows[j] != null)
                 {
+                    pCellColumns[i].pcellRows[j].SetActive(false);
                     pCellColumns[i].pcellRows[j] = null;
                 }
                 if (history[move].pCellColumns[i].pcellRows[j] != null)
                 {
+                        
                     pCellColumns[i].pcellRows[j] = history[move].pCellColumns[i].pcellRows[j];
+                    
                     pCellColumns[i].pcellRows[j].gameObject.transform.position = BoardGenerator._instance.CellColumns[i].cellRows[j].transform.position;
                     SetPieceUp(pCellColumns[i].pcellRows[j].gameObject);
+                }
+            }
+        }
+        for (int ii = 0; ii < 8; ii++)
+        {
+            for (int jj = 0; jj < 8; jj++)
+            {
+                if (pCellColumns[ii].pcellRows[jj] != null)
+                {
+                    pCellColumns[ii].pcellRows[jj].SetActive(true);
                 }
             }
         }
@@ -168,6 +181,7 @@ public class PieceManager : MonoBehaviour
     }
     public void SetPieceUp(GameObject piece)
     {
+        piece.SetActive(true);
         var x = piece.transform.position;x.z  -= 1f; 
         piece.transform.position = x;
 
@@ -1272,6 +1286,7 @@ public class PieceManager : MonoBehaviour
             {
                 if (pCellColumns[xx].pcellRows[yy] != null)
                 {
+
                     history[move].pCellColumns[xx].pcellRows[yy] = pCellColumns[xx].pcellRows[yy].gameObject;
                 }
                 
