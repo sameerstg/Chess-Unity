@@ -18,15 +18,15 @@ public class PieceManager : MonoBehaviour
 
     public DCell[] dCellColumns;
     public PCell[] pCellColumns;
-    
+
 
     //      List of White Pieces
-     List<GameObject> whitePieces;
+    List<GameObject> whitePieces;
     //      List of Black Pieces
-     List<GameObject> blackPieces;
+    List<GameObject> blackPieces;
     //      Count Of Pieces
-     int bPiecesCount;
-     int wPiecesCount;
+    int bPiecesCount;
+    int wPiecesCount;
 
     //      Selected Piece
     public GameObject SelectedPiece;
@@ -41,7 +41,7 @@ public class PieceManager : MonoBehaviour
     //      If(true)Whites Turn;else black turns
     public bool turn;
     //      Check Boolean
-    public bool check,checkmate,futureCheck;
+    public bool check, checkmate, futureCheck;
     //      move text
     public Text moveText, totalMoveText;
     int move;
@@ -52,19 +52,16 @@ public class PieceManager : MonoBehaviour
     }
     private void Start()
     {
-        for (int i = 0; i < 9; i++)
-        {
-    //      Instantiating All Classes 8 times
-            pCellColumns = new PCell[i];
-            dCellColumns = new DCell[i];
-           
-        }
-        for (int m = 0; m < 128; m++)
-        {
-            history = new PCellC[m];
-        }
-        MoveText(0);
         
+            //      Instantiating All Classes 8 times
+            pCellColumns = new PCell[8];
+            dCellColumns = new DCell[8];
+
+       
+            history = new PCellC[300];
+        
+        MoveText(0);
+
 
         whitePieces = new List<GameObject>();
         blackPieces = new List<GameObject>();
@@ -77,7 +74,7 @@ public class PieceManager : MonoBehaviour
         check = false;
         checkmate = false;
         futureCheck = false;
-        
+
     }
     void Update()
     {
@@ -85,12 +82,12 @@ public class PieceManager : MonoBehaviour
         {
             GoToMove(0);
         }
-        
-        if (Input.GetKeyDown(KeyCode.LeftArrow) && move-1 >= 0)
+
+        if (Input.GetKeyDown(KeyCode.LeftArrow) && move - 1 >= 0)
         {
-            GoToMove(move-1);
+            GoToMove(move - 1);
         }
-        if (Input.GetKeyDown(KeyCode.RightArrow) && move +1 <= totalMoves)
+        if (Input.GetKeyDown(KeyCode.RightArrow) && move + 1 <= totalMoves)
         {
             GoToMove(move + 1);
         }
@@ -98,8 +95,8 @@ public class PieceManager : MonoBehaviour
         {
             GoToMove(totalMoves);
         }
-       
-        
+
+
     }
     //     Generating All Pieces
 
@@ -147,9 +144,9 @@ public class PieceManager : MonoBehaviour
                 }
                 if (history[move].pCellColumns[i].pcellRows[j] != null)
                 {
-                        
+
                     pCellColumns[i].pcellRows[j] = history[move].pCellColumns[i].pcellRows[j];
-                    
+
                     pCellColumns[i].pcellRows[j].gameObject.transform.position = BoardGenerator._instance.CellColumns[i].cellRows[j].transform.position;
                     SetPieceUp(pCellColumns[i].pcellRows[j].gameObject);
                 }
@@ -166,7 +163,7 @@ public class PieceManager : MonoBehaviour
             }
         }
         Check();
-        
+
         MoveText(move);
     }
     public void MoveText(int arg)
@@ -182,7 +179,7 @@ public class PieceManager : MonoBehaviour
     public void SetPieceUp(GameObject piece)
     {
         piece.SetActive(true);
-        var x = piece.transform.position;x.z  -= 1f; 
+        var x = piece.transform.position; x.z -= 1f;
         piece.transform.position = x;
 
     }
@@ -297,18 +294,18 @@ public class PieceManager : MonoBehaviour
         {
             for (int k = 2; k > -3; k--)
             {
-                
-                if (k==0)
+
+                if (k == 0)
                 {
                     continue;
                 }
-                else if (k==2 || k==-2)
+                else if (k == 2 || k == -2)
                 {
                     GenerateDot(xAxisPos + k, yAxisPos + 1);
                     GenerateDot(xAxisPos + k, yAxisPos - 1);
-                   
+
                 }
-                else if (k== 1 || k == -1)
+                else if (k == 1 || k == -1)
                 {
                     GenerateDot(xAxisPos + k, yAxisPos + 2);
                     GenerateDot(xAxisPos + k, yAxisPos - 2);
@@ -1229,14 +1226,14 @@ public class PieceManager : MonoBehaviour
         {
             for (int i = 1; i > -2; i--)
             {
-                for (int j = -1; j <2 ; j++)
+                for (int j = -1; j < 2; j++)
                 {
-                    
+
                     GenerateDot(xAxisPos + i, yAxisPos + j);
                 }
             }
 
-         }
+        }
         else if (piece.name == "WKing(Clone)")
         {
             for (int i = 1; i > -2; i--)
@@ -1251,14 +1248,14 @@ public class PieceManager : MonoBehaviour
     }
     public void Move(GameObject dot)
     {
-        
+
         for (int i = 0; i < 8; i++)
         {
             for (int j = 0; j < 8; j++)
             {
                 if (dCellColumns[i].dcellRows[j] == dot)
                 {
-                    
+
                     EliminatingPieceFromArray(SelectedPiece);
                     if (pCellColumns[i].pcellRows[j] != null)
                     {
@@ -1270,7 +1267,7 @@ public class PieceManager : MonoBehaviour
                     pCellColumns[i].pcellRows[j] = SelectedPiece;
                     SelectedPiece.GetComponent<Piece>().DoneFirstMove();
 
-                    
+
                 }
             }
         }
@@ -1279,7 +1276,7 @@ public class PieceManager : MonoBehaviour
     }
     public void SaveMove()
     {
-        
+
         for (int xx = 0; xx < 8; xx++)
         {
             for (int yy = 0; yy < 8; yy++)
@@ -1289,7 +1286,7 @@ public class PieceManager : MonoBehaviour
 
                     history[move].pCellColumns[xx].pcellRows[yy] = pCellColumns[xx].pcellRows[yy].gameObject;
                 }
-                
+
             }
         }
     }
@@ -1325,7 +1322,7 @@ public class PieceManager : MonoBehaviour
                 }
             }
         }
-        
+
 
     }
     public void NewMove()
@@ -1361,34 +1358,34 @@ public class PieceManager : MonoBehaviour
                         return;
                     }
                 }
-                    //////////////////////////////////////////          Black King Check Check
-                    for (int zz = 0; zz < 8; zz++)
+                //////////////////////////////////////////          Black King Check Check
+                for (int zz = 0; zz < 8; zz++)
+                {
+                    for (int jj = 0; jj < 8; jj++)
                     {
-                        for (int jj = 0; jj < 8; jj++)
+                        if (pCellColumns[zz].pcellRows[jj] == null)
                         {
-                            if (pCellColumns[zz].pcellRows[jj] == null)
-                            {
-                                continue;
-                            }
+                            continue;
+                        }
 
-                            else if (pCellColumns[zz].pcellRows[jj].name == "BKing(Clone)")
-                            {
-                                BlackKingCheck(zz, jj);
+                        else if (pCellColumns[zz].pcellRows[jj].name == "BKing(Clone)")
+                        {
+                            BlackKingCheck(zz, jj);
                             if (check == true)
                             {
                                 Background._instance.CheckColor();
                                 return;
                             }
                         }
-                        }
                     }
                 }
             }
-
-           
         }
 
-    public void WhiteKingCheck(int i,int j)
+
+    }
+
+    public void WhiteKingCheck(int i, int j)
     {
         // Pawn check
         if (i - 1 >= 0 && i - 1 <= 7 && j + 1 >= 0 && j + 1 <= 7)
@@ -1404,7 +1401,7 @@ public class PieceManager : MonoBehaviour
                 else
                 {
                     Background._instance.CheckColor();
-                    
+
                 }
             }
         }
@@ -1421,7 +1418,7 @@ public class PieceManager : MonoBehaviour
                 else
                 {
                     Background._instance.CheckColor();
-                   
+
                 }
             }
         }
@@ -1854,7 +1851,7 @@ public class PieceManager : MonoBehaviour
             Background._instance.CheckColor();
         }
     }
-    public void BlackKingCheck(int zz,int jj)
+    public void BlackKingCheck(int zz, int jj)
     {
         // Pawn check
         if (zz + 1 >= 0 && zz + 1 <= 7 && jj + 1 >= 0 && jj + 1 <= 7)
@@ -2328,7 +2325,7 @@ public class PieceManager : MonoBehaviour
                     {
                         check = false;
                         Background._instance.CheckColor();
-                       
+
                     }
                 }
                 else
@@ -2343,9 +2340,9 @@ public class PieceManager : MonoBehaviour
 
         }
     }
-     void GenerateDot(int x, int y)
+    void GenerateDot(int x, int y)
     {
-        if (x>7 || x <0|| y >7||y<0)
+        if (x > 7 || x < 0 || y > 7 || y < 0)
         {
             return;
         }
@@ -2381,7 +2378,7 @@ public class PieceManager : MonoBehaviour
                         }
                     }
                 }
-                   
+
             }
             else if (pCellColumns[x].pcellRows[y] == null)
             {
@@ -2419,43 +2416,42 @@ public class PieceManager : MonoBehaviour
                 }
                 else
                 {
-                        var newDot = Instantiate(dot, BoardGenerator._instance.CellColumns[x].cellRows[y].transform.position, Quaternion.identity);
-                        allDots.Add(newDot);
-                        dCellColumns[x].dcellRows[y] = newDot.gameObject;
+                    var newDot = Instantiate(dot, BoardGenerator._instance.CellColumns[x].cellRows[y].transform.position, Quaternion.identity);
+                    allDots.Add(newDot);
+                    dCellColumns[x].dcellRows[y] = newDot.gameObject;
                 }
-                    
-                    
-                    
-                }
+
 
 
             }
 
-        
+
+        }
+
+
 
     }
 
-    
-    }
+
+}
 
 
 
 
 
-    [System.Serializable]
-    public class PCell
-    {
-        public GameObject[] pcellRows = new GameObject[8];
-    }
-    [System.Serializable]
-    public class DCell
-    {
-        public GameObject[] dcellRows = new GameObject[8];
-    }
+[System.Serializable]
+public class PCell
+{
+    public GameObject[] pcellRows = new GameObject[8];
+}
+[System.Serializable]
+public class DCell
+{
+    public GameObject[] dcellRows = new GameObject[8];
+}
 [System.Serializable]
 public class PCellC
 {
     public PCell[] pCellColumns = new PCell[8];
 }
-
 

@@ -8,31 +8,39 @@ public class BoardGenerator : MonoBehaviour
     public GameObject bTile, wTile;
     bool matColor = false;
     public Cell cell;
-     public   Cell[] CellColumns;
+    public Cell[] CellColumns  ;
     Vector3 firstPos;
     private void Awake()
     {
         _instance = this;
-        
+
     }
     void Start()
     {
-        for (int j = 0; j < 9; j++)
+        
+            CellColumns = new Cell[8];
+
+        for (int i = 0; i < 8; i++)
         {
-            CellColumns = new Cell[j];
+            CellColumns[i] = new Cell();
+
         }
-/*        StartCoroutine(Delay());
-*/
+        GenerateAllTiles();
+
+        /*        StartCoroutine(Delay());
+        */
     }
+
+
     void GenerateAllTiles()
     {
-        
+
         firstPos = bTile.transform.position;
         firstPos.y += 1;
         for (int i = 0; i < 8; i++)
         {
-            
-            
+
+
             firstPos.x = -8;
             firstPos.y -= 1;
             if (matColor)
@@ -49,7 +57,7 @@ public class BoardGenerator : MonoBehaviour
                 firstPos.x += 1;
                 var justMadeTile = Instantiate(bTile, firstPos, Quaternion.identity);
                 justMadeTile.transform.parent = transform;
-                justMadeTile.name = string.Format("(" + (i +1).ToString()+ (j+1).ToString() + ")");
+                justMadeTile.name = string.Format("(" + (i + 1).ToString() + (j + 1).ToString() + ")");
                 CellColumns[i].cellRows[j] = justMadeTile;
 
                 if (matColor)
@@ -82,6 +90,10 @@ public class BoardGenerator : MonoBehaviour
 [System.Serializable]
 public class Cell
 {
+    public Cell()
+    {
+
+    }
     public GameObject[] cellRows = new GameObject[8];
 
 }
