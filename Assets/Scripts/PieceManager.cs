@@ -18,6 +18,7 @@ public class PieceManager : MonoBehaviour
 
     public DCell[] dCellColumns;
     public PCell[] pCellColumns;
+    public PCell[] pCellColumnsTemp;
 
 
     //      List of White Pieces
@@ -50,16 +51,37 @@ public class PieceManager : MonoBehaviour
     {
         _instance = this;
     }
-    private void Start()
-    {
-        
-            //      Instantiating All Classes 8 times
-            pCellColumns = new PCell[8];
-            dCellColumns = new DCell[8];
+   
 
-       
-            history = new PCellC[300];
-        
+    public void InitializePieceManager()
+    {
+        //      Instantiating All Classes 8 times
+        pCellColumns = new PCell[8];
+        pCellColumnsTemp = new PCell[8];
+        dCellColumns = new DCell[8];
+
+        for (int i = 0; i < 8; i++)
+        {
+            pCellColumns[i] = new PCell();
+            pCellColumnsTemp[i] = new PCell();
+            dCellColumns[i] = new DCell();
+        }
+
+        history = new PCellC[300];
+        for (int i = 0; i < 300; i++)
+        {
+
+            history[i] = new PCellC();
+            history[i].pCellColumns = new PCell[8];
+            for (int j = 0; j < 8; j++)
+            {
+                history[i].pCellColumns[j] = new PCell();
+            }
+
+        }
+        Set();
+
+
         MoveText(0);
 
 
@@ -1259,7 +1281,7 @@ public class PieceManager : MonoBehaviour
                     EliminatingPieceFromArray(SelectedPiece);
                     if (pCellColumns[i].pcellRows[j] != null)
                     {
-                        Take(pCellColumns[i].pcellRows[j], i, j);
+                        Take(pCellColumns[i].pcellRows[j]);
                     }
                     var whereToSend = BoardGenerator._instance.CellColumns[i].cellRows[j].transform.position;
                     whereToSend.z -= 2;
@@ -1283,8 +1305,11 @@ public class PieceManager : MonoBehaviour
             {
                 if (pCellColumns[xx].pcellRows[yy] != null)
                 {
-
+                   
                     history[move].pCellColumns[xx].pcellRows[yy] = pCellColumns[xx].pcellRows[yy].gameObject;
+                    pCellColumnsTemp[xx].pcellRows[yy] = pCellColumns[xx].pcellRows[yy].gameObject;
+
+
                 }
 
             }
@@ -1332,10 +1357,29 @@ public class PieceManager : MonoBehaviour
         totalMoveText.text = "Total Move: " + totalMoves;
         SaveMove();
     }
-    public void Take(GameObject piece, int x, int y)
+    public void NewMoveBack()
     {
-        piece.SetActive(false);
-        pCellColumns[x].pcellRows[y] = null;
+        MoveText(move - 1);
+        totalMoves -= 1;
+        totalMoveText.text = "Total Move: " + totalMoves;
+        SaveMove();
+    }
+    public void Take(GameObject piece)
+    {
+        
+        for (int i = 0; i < 8; i++)
+        {
+            for (int j = 0; j < 8; j++)
+            {
+                if (pCellColumns[i].pcellRows[j] == piece)
+                {
+                    piece.SetActive(false);
+                    pCellColumns[i].pcellRows[j] = null;
+                }
+                
+            }
+        }
+       
     }
     public void Check()
     {
@@ -2428,11 +2472,63 @@ public class PieceManager : MonoBehaviour
 
         }
 
-
+        FutureCheck();
 
     }
 
+    void FutureCheck()
+    {
+        foreach (var dot in allDots)
+        {
+            for (int i = 0; i < 8; i++)
+            {
+                for (int k = 0; k < 8; k++)
+                {
+                    if(dCellColumns[i].dcellRows[k] == dot)
+                    {
+                        for (int l = 0; l < 8; l++)
+                        {
+                            for (int m = 0; m < 8; m++)
+                            {
+                                if (pCellColumns[l].pcellRows[m] == SelectedPiece)
+                                {
+                                    pCellColumns[l].pcellRows[m] = null;
+                                }
 
+                            }
+                        }
+                        if (pCellColumns[i].pcellRows[k] == null)
+                        {
+                            pCellColumns[i].pcellRows[k] = SelectedPiece;
+                        }
+                        else
+                        {
+                            Take(pCellColumns[i].pcellRows[k].gameObject);
+                            pCellColumns[i].pcellRows[k] = SelectedPiece;
+
+                        }
+                    }
+                }
+            }
+            if (check)
+            {
+                Destroy(dot);
+                
+            }
+            
+            for (int xx = 0; xx < 8; xx++)
+            {
+                for (int yy = 0; yy < 8; yy++)
+                {
+                    pCellColumns[xx].pcellRows[yy] = pCellColumnsTemp[xx].pcellRows[yy];
+                    pCellColumns[xx].pcellRows[yy].SetActive(true);
+                }
+            }
+            NewMoveBack();
+            check = false;
+        }
+    }
+    
 }
 
 
@@ -2452,6 +2548,7 @@ public class DCell
 [System.Serializable]
 public class PCellC
 {
-    public PCell[] pCellColumns = new PCell[8];
+    public PCell[] pCellColumns ;
+   
 }
 

@@ -20,4 +20,5 @@ public class Tile : MonoBehaviour
     {
         mesh.material.color = defaultColor;
     }
+
 }
