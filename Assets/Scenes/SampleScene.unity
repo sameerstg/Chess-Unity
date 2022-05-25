@@ -745,8 +745,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1489392096}
-        m_MethodName: Gernerate
+      - m_Target: {fileID: 1790879258}
+        m_MethodName: ResetGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1366,8 +1366,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   history: []
-  future: []
-  freePlay: 0
+  freePlay: 1
   whitePiecesList:
   - {fileID: 1483191055986076433, guid: 2fe573f6242b94f498b96aca6bbec04a, type: 3}
   - {fileID: 789580578203201095, guid: cb95509310a484a4d82ecc1e41b10dc9, type: 3}
@@ -1548,13 +1547,13 @@ MonoBehaviour:
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
+  pCellColumnsTemp: []
   SelectedPiece: {fileID: 0}
   dot: {fileID: 0}
   allDots: []
   turn: 0
   check: 0
   checkmate: 0
-  futureCheck: 0
   moveText: {fileID: 1259859924}
   totalMoveText: {fileID: 2071864620}
   totalMoves: 0

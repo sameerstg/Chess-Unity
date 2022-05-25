@@ -7,56 +7,76 @@ public class Piece : MonoBehaviour
 {
     public bool firstMove;
     public Vector3 scale;
-    
+    float timeDelay;
     private void Start()
     {
         firstMove = false;
+        timeDelay = .4f;
+    }
+    float time;
+    bool isPressed;
+   
+    void Update()
+    {
+        if (isPressed && time< timeDelay)
+        {
+            time += Time.deltaTime;
+        }
+        if (time>= timeDelay && isPressed)
+        {
+            time = 0;
+            isPressed = false;
+        }
     }
     private void OnMouseDown()
     {
-
-        if (!PieceManager._instance.freePlay)
+        if (!isPressed)
         {
-            if (!PieceManager._instance.check)
+
+
+            if (!PieceManager._instance.freePlay)
             {
-                if (GameManager._instance.turn && gameObject.CompareTag(pieceColor.White.ToString()))
+                if (!PieceManager._instance.check)
                 {
-                    gameObject.transform.localScale *= 2f;
-                    PieceManager._instance.GetMove(gameObject, gameObject.name);
-                    StartCoroutine(DelayForScaleUp());
+                    if (GameManager._instance.turn && gameObject.CompareTag(pieceColor.White.ToString()))
+                    {
+                        gameObject.transform.localScale *= 2f;
+                        PieceManager._instance.GetMove(gameObject, gameObject.name);
+                        StartCoroutine(DelayForScaleUp());
+                    }
+                    if (!GameManager._instance.turn && gameObject.CompareTag(pieceColor.Black.ToString()))
+                    {
+                        gameObject.transform.localScale *= 2f;
+                        PieceManager._instance.GetMove(gameObject, gameObject.name);
+                        StartCoroutine(DelayForScaleUp());
+                    }
                 }
-                if (!GameManager._instance.turn && gameObject.CompareTag(pieceColor.Black.ToString()))
+
+                else if (PieceManager._instance.check)
                 {
-                    gameObject.transform.localScale *= 2f;
-                    PieceManager._instance.GetMove(gameObject, gameObject.name);
-                    StartCoroutine(DelayForScaleUp());
+                    if (GameManager._instance.turn && gameObject.CompareTag(pieceColor.White.ToString()) )
+                    {
+                        gameObject.transform.localScale *= 2f;
+                        PieceManager._instance.GetMove(gameObject, gameObject.name);
+                        StartCoroutine(DelayForScaleUp());
+                    }
+                    if (!GameManager._instance.turn && gameObject.CompareTag(pieceColor.Black.ToString()))
+                    {
+                        gameObject.transform.localScale *= 2f;
+                        PieceManager._instance.GetMove(gameObject, gameObject.name);
+                        StartCoroutine(DelayForScaleUp());
+                    }
+
                 }
             }
-
-            else if (PieceManager._instance.check)
+            else
             {
-                if (GameManager._instance.turn && gameObject.CompareTag(pieceColor.White.ToString()) && gameObject.name == "WKing(Clone)")
-                {
-                    gameObject.transform.localScale *= 2f;
-                    PieceManager._instance.GetMove(gameObject, gameObject.name);
-                    StartCoroutine(DelayForScaleUp());
-                }
-                if (!GameManager._instance.turn && gameObject.CompareTag(pieceColor.Black.ToString()) && gameObject.name == "BKing(Clone)")
-                {
-                    gameObject.transform.localScale *= 2f;
-                    PieceManager._instance.GetMove(gameObject, gameObject.name);
-                    StartCoroutine(DelayForScaleUp());
-                }
-
+                gameObject.transform.localScale *= 2f;
+                PieceManager._instance.GetMove(gameObject, gameObject.name);
+                StartCoroutine(DelayForScaleUp());
             }
+            isPressed = true;
         }
-        else
-        {
-            gameObject.transform.localScale *= 2f;
-            PieceManager._instance.GetMove(gameObject, gameObject.name);
-            StartCoroutine(DelayForScaleUp());
-        }
-
     }
 
     public IEnumerator DelayForScaleUp()

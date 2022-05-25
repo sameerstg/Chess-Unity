@@ -1311,12 +1311,16 @@ public class PieceManager : MonoBehaviour
                 }
             }
         }
-        print($"Dots count are: {GetDotsCount()}");
-
         if (move != 0)
         {
             FutureCheck();
         }
+        if (GetDotsCount() == 0)
+        {
+            print("checkmate");
+        }
+        GetDotsPos();
+        print($"Dots count are: {GetDotsCount()}");
 
     }
     public void Move(GameObject dot)
@@ -2455,8 +2459,8 @@ public class PieceManager : MonoBehaviour
                             WhiteKingCheck(x, y);
                             if (check)
                             {
-                                check = false;
-                                Background._instance.CheckColor();
+/*                                check = false;
+*/                                Background._instance.CheckColor();
                             }
                             else
                             {
@@ -2483,8 +2487,8 @@ public class PieceManager : MonoBehaviour
                     WhiteKingCheck(x, y);
                     if (check)
                     {
-                        check = false;
-                        Background._instance.CheckColor();
+/*                        check = false;
+*/                        Background._instance.CheckColor();
                     }
                     else
                     {
@@ -2499,8 +2503,8 @@ public class PieceManager : MonoBehaviour
                     BlackKingCheck(x, y);
                     if (check)
                     {
-                        check = false;
-                        Background._instance.CheckColor();
+/*                        check = false;
+*/                        Background._instance.CheckColor();
                     }
                     else
                     {
@@ -2523,10 +2527,10 @@ public class PieceManager : MonoBehaviour
 
 
         }
-       
+
 
     }
-    
+
     void ResetFutureCheck()
     {
         GoToMove(move);
@@ -2540,12 +2544,25 @@ public class PieceManager : MonoBehaviour
                 if (dCellColumns[d1].dcellRows[d2] != null)
                 {
 
+                    for (int i = 0; i < 8; i++)
+                    {
+                        for (int j = 0; j < 8; j++)
+                        {
+
+                            if (pCellColumns[i].pcellRows[j] == SelectedPiece)
+                            {
+                                pCellColumns[i].pcellRows[j] = null;
+                            }
+                        }
+                    }
+
+
                     pCellColumns[d1].pcellRows[d2] = SelectedPiece;
                     Check();
-                    print($"{whoGiveCheck}  {SelectedPiece.tag}");
-                    if (whoGiveCheck != SelectedPiece.tag && whoGiveCheck != ""&& whoGiveCheck != " ")
+
+                    if (whoGiveCheck != SelectedPiece.tag && whoGiveCheck != "" && whoGiveCheck != " ")
                     {
-                        print("dot destroyed");
+                        /*print("dot destroyed");*/
                         allDots.Remove(dCellColumns[d1].dcellRows[d2]);
                         Destroy(dCellColumns[d1].dcellRows[d2].gameObject);
                         dCellColumns[d1].dcellRows[d2] = null;
@@ -2563,13 +2580,27 @@ public class PieceManager : MonoBehaviour
         {
             foreach (var dotitem in item.dcellRows)
             {
-                if (dotitem!=null)
+                if (dotitem != null)
                 {
                     dots += 1;
                 }
             }
         }
         return dots;
+    }
+    void GetDotsPos()
+    {
+        for (int i = 0; i < 8; i++)
+        {
+            for (int j = 0; j < 8; j++)
+            {
+                if (dCellColumns[i].dcellRows[j] != null)
+                {
+                    Debug.Log($" Dot is at {i} , {j}");
+                }
+            }
+
+        }
     }
 }
 
@@ -2579,21 +2610,20 @@ public class PieceManager : MonoBehaviour
 
 
 
+    [System.Serializable]
+    public class PCell
+    {
+        public GameObject[] pcellRows = new GameObject[8];
+    }
+    [System.Serializable]
+    public class DCell
+    {
+        public GameObject[] dcellRows = new GameObject[8];
+    }
+    [System.Serializable]
+    public class PCellC
+    {
+        public PCell[] pCellColumns;
 
-[System.Serializable]
-public class PCell
-{
-    public GameObject[] pcellRows = new GameObject[8];
-}
-[System.Serializable]
-public class DCell
-{
-    public GameObject[] dcellRows = new GameObject[8];
-}
-[System.Serializable]
-public class PCellC
-{
-    public PCell[] pCellColumns;
-
-}
+    }
 
