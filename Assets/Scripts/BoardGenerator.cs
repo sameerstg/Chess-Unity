@@ -8,11 +8,11 @@ public class BoardGenerator : MonoBehaviour
     public GameObject bTile, wTile;
     bool matColor = false;
     public Cell cell;
-    public Cell[] CellColumns  ;
+    public Cell[] CellColumns;
     Vector3 firstPos;
     public enum coordinates
     {
-        A,B,C,D,E,F,G,H
+        A, B, C, D, E, F, G, H
     }
     private void Awake()
     {
@@ -21,8 +21,15 @@ public class BoardGenerator : MonoBehaviour
     }
     void Start()
     {
-        
-            CellColumns = new Cell[8];
+
+        Inititalize();
+        /*        StartCoroutine(Delay());
+        */
+    }
+    public void Inititalize()
+    {
+
+        CellColumns = new Cell[8];
 
         for (int i = 0; i < 8; i++)
         {
@@ -31,10 +38,7 @@ public class BoardGenerator : MonoBehaviour
         }
         GenerateAllTiles();
         PieceManager._instance.InitializePieceManager();
-        /*        StartCoroutine(Delay());
-        */
     }
-
 
     void GenerateAllTiles()
     {
@@ -61,7 +65,7 @@ public class BoardGenerator : MonoBehaviour
                 firstPos.x += 1;
                 var justMadeTile = Instantiate(bTile, firstPos, Quaternion.identity);
                 justMadeTile.transform.parent = transform;
-                justMadeTile.name = string.Format("(" + ((coordinates)(i ))+ (j+1).ToString() + ")");
+                justMadeTile.name = string.Format("(" + ((coordinates)(i)) + (j + 1).ToString() + ")");
                 CellColumns[i].cellRows[j] = justMadeTile;
 
                 if (matColor)
@@ -78,7 +82,7 @@ public class BoardGenerator : MonoBehaviour
             }
 
         }
-        
+
     }
     [ContextMenu("Generate Grid")]
     public void Gernerate()

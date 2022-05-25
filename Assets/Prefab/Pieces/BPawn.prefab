@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 8661744477435239821}
   - component: {fileID: 8661744477435239820}
   - component: {fileID: 7153656268762785706}
-  - component: {fileID: 6080754680628390706}
   m_Layer: 0
   m_Name: BPawn
   m_TagString: Black
@@ -96,20 +95,6 @@ BoxCollider:
   m_Size: {x: 0.7, y: 0.7, z: 0.7}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &7153656268762785706
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8661744477435239811}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9660b18604bae3d4288a0540fe268387, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  firstMove: 0
-  scale: {x: 0, y: 0, z: 0}
---- !u!114 &6080754680628390706
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
