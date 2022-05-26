@@ -12,10 +12,11 @@ public class Piece : MonoBehaviour
     {
         firstMove = false;
         timeDelay = .4f;
+        
     }
     float time;
     bool isPressed;
-   
+    
     void Update()
     {
         if (isPressed && time< timeDelay)
@@ -28,9 +29,10 @@ public class Piece : MonoBehaviour
             isPressed = false;
         }
     }
+    
     private void OnMouseDown()
     {
-        if (!isPressed)
+        if (!isPressed && GameManager._instance.permit)
         {
 
 

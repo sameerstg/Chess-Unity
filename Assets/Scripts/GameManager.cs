@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public static GameManager _instance;
     public bool turn;
     public Text turnText;
+    public bool permit;
     private void Awake()
     {
         _instance = this;
@@ -16,6 +17,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         turn = true;
+        permit = true;
         turnText.text = "White Turn";
 
 

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2428925388191560932}
   - component: {fileID: 2428925388191560923}
   - component: {fileID: 2428925388191560922}
-  - component: {fileID: -4030235947945194038}
+  - component: {fileID: 5817353396652572369}
   m_Layer: 0
   m_Name: BKnight
   m_TagString: Black
@@ -27,7 +27,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2428925388191560921}
-  m_LocalRotation: {x: -0, y: -0, z: 1, w: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -94,7 +94,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.7, y: 0.7, z: 0.7}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-4030235947945194038
+--- !u!114 &5817353396652572369
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
